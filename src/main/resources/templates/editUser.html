@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit User</title>
+</head>
+<body>
+<div>
+    <th:block th:include="menuPage">Menu</th:block>
+</div>
+<h2>Edit User</h2>
+<div>
+    <form th:action="@{/admin/edit}" th:object="${user}" th:method="post">
+<!--    <form th:action="editUser" th:object="${user}" method="post">-->
+        <input type="hidden" name="id" th:value="${user.id}">
+        <fieldset>
+            <legend>User Information</legend>
+            <p>
+                <label th:for="username">Login
+                    <input type="text" name="username" th:id="username" th:value="${user.username}">
+                </label>
+                <br>
+                <label th:for="password">Password
+                    <input type="text" name="password" th:id="password" th:value="${user.password}">
+                </label>
+                <br>
+                <label th:for="email">Email
+                    <input type="text" name="email" th:id="email" th:value="${user.email}">
+                </label>
+                <br>
+                <label th:for="name">Name
+                    <input type="text" name="name" th:id="name" th:value="${user.name}">
+                </label>
+                <br>
+                <label th:for="surname">Surname
+                    <input type="text" name="surname" th:id="surname" th:value="${user.surname}">
+                </label>
+                <br>
+                <label>
+                    <input type="checkbox"
+                           name="roleAdmin"
+                           th:checked="${roleAdmin}"
+                           th:value="1"
+                           th:text="Administrator">
+                </label>
+                <label>
+                    <input type="checkbox"
+                           name="roleUser"
+                           th:checked="${roleUser}"
+                           th:value="2"
+                           th:text="User">
+                </label>
+            </p>
+        </fieldset>
+        <button type="submit">Update Information</button>
+    </form>
+    <br>
+    <form th:action="@{/admin/all}">
+        <button type="submit">Back to User List</button>
+    </form>
+</div>
+</body>
+</html>
