@@ -13,22 +13,19 @@ public class RoleDAOImpl implements RoleDAO {
     private EntityManager entityManager;
 
     @Override
-    public List<Role> allRoles() {
-        return entityManager.createQuery("select r from Role r", Role.class).getResultList();
-    }
-
-    @Override
     public Role getRoleById(int id) {
         return entityManager.find(Role.class, id);
     }
 
     @Override
     public Role getRoleByName(String name) {
-        return entityManager.createQuery("select r from Role r where r.name=:name", Role.class).setParameter("name", name).getSingleResult();
+        return entityManager.createQuery("SELECT r FROM Role r WHERE r.name = :name", Role.class)
+                .setParameter("name", name)
+                .getSingleResult();
     }
 
     @Override
-    public Role getDefaultRole() {
-        return getRoleByName("ROLE_USER");
+    public List<Role> getAllRoles() {
+        return entityManager.createQuery("SELECT r FROM Role r", Role.class).getResultList();
     }
 }

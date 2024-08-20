@@ -13,9 +13,10 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleDAO roleDAO;
 
+
     @Override
-    public List<Role> allRoles() {
-        return roleDAO.allRoles();
+    public Role getRoleById(int id) {
+        return roleDAO.getRoleById(id);
     }
 
     @Override
@@ -24,12 +25,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getRoleById(int id) {
-        return roleDAO.getRoleById(id);
-    }
-
-    @Override
-    public Role getDefaultRole() {
-        return roleDAO.getDefaultRole();
+    public List<Role> getAllRoles() {
+        return roleDAO.getAllRoles();
     }
 }
