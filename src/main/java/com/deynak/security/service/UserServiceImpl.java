@@ -17,11 +17,14 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
+    private final RoleService roleService;
 
     @Autowired
-    private RoleService roleService;
+    public UserServiceImpl(UserDAO userDAO, RoleService roleService) {
+        this.userDAO = userDAO;
+        this.roleService = roleService;
+    }
 
     @Override
     public List<User> getAllUsers() {
@@ -51,14 +54,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void assignRolesAndSaveUser(User user, String roleAdmin, String roleUser) {
+    public void assignRolesAndSaveUser(User user, String roleAdminFlag, String roleUserFlag) {
         Set<Role> roles = new HashSet<>();
-        if (roleAdmin != null && roleAdmin.equals("1")) {
-            roles.add(roleService.getRoleById(1));
+
+        if (Boolean.parseBoolean(roleAdminFlag)) {
+            roles.add(roleService.getRoleByName("ROLE_ADMIN"));
         }
-        if (roleUser != null && roleUser.equals("2")) {
-            roles.add(roleService.getRoleById(2));
+        if (Boolean.parseBoolean(roleUserFlag)) {
+            roles.add(roleService.getRoleByName("ROLE_USER"));
         }
+
         user.setRoleSet(roles);
         saveUser(user);
     }
@@ -66,12 +71,13 @@ public class UserServiceImpl implements UserService {
     public void addRoleAttributes(ModelMap modelMap, User user) {
         Set<Role> roles = user.getRoleSet();
         for (Role role : roles) {
-            if (role.equals(roleService.getRoleById(1))) {
+            if (role.getName().equals("ROLE_ADMIN")) {
                 modelMap.addAttribute("roleAdmin", true);
             }
-            if (role.equals(roleService.getRoleById(2))) {
+            if (role.getName().equals("ROLE_USER")) {
                 modelMap.addAttribute("roleUser", true);
             }
         }
     }
 }
+
