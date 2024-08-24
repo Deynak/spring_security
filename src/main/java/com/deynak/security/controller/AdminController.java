@@ -50,6 +50,7 @@ public class AdminController {
     public String editUser(ModelMap modelMap, @RequestParam("id") int id) {
         User user = userService.getUser(id);
         modelMap.addAttribute("user", user);
+        modelMap.addAttribute("allRoles", roleService.getAllRoles());
         userService.addRoleAttributes(modelMap, user);
         return "editUser";
     }

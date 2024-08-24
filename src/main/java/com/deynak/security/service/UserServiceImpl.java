@@ -57,11 +57,11 @@ public class UserServiceImpl implements UserService {
     public void assignRolesAndSaveUser(User user, String roleAdminFlag, String roleUserFlag) {
         Set<Role> roles = new HashSet<>();
 
-        if (Boolean.parseBoolean(roleAdminFlag)) {
-            roles.add(roleService.getRoleByName("ROLE_ADMIN"));
+        if (roleAdminFlag != null && !roleAdminFlag.isEmpty()) {
+            roles.add(roleService.getRoleByName(roleAdminFlag));
         }
-        if (Boolean.parseBoolean(roleUserFlag)) {
-            roles.add(roleService.getRoleByName("ROLE_USER"));
+        if (roleUserFlag != null && !roleUserFlag.isEmpty()) {
+            roles.add(roleService.getRoleByName(roleUserFlag));
         }
 
         user.setRoleSet(roles);
@@ -71,12 +71,7 @@ public class UserServiceImpl implements UserService {
     public void addRoleAttributes(ModelMap modelMap, User user) {
         Set<Role> roles = user.getRoleSet();
         for (Role role : roles) {
-            if (role.getName().equals("ROLE_ADMIN")) {
-                modelMap.addAttribute("roleAdmin", true);
-            }
-            if (role.getName().equals("ROLE_USER")) {
-                modelMap.addAttribute("roleUser", true);
-            }
+            modelMap.addAttribute(role.getName(), true);
         }
     }
 }

@@ -35,19 +35,12 @@
                     <input type="text" name="surname" th:id="surname" th:value="${user.surname}">
                 </label>
                 <br>
-                <label>
+                <label th:each="role : ${allRoles}">
                     <input type="checkbox"
-                           name="roleAdmin"
-                           th:checked="${roleAdmin}"
-                           th:value="1"
-                           th:text="Administrator">
-                </label>
-                <label>
-                    <input type="checkbox"
-                           name="roleUser"
-                           th:checked="${roleUser}"
-                           th:value="2"
-                           th:text="User">
+                           name="role"
+                           th:value="${role.name}"
+                           th:checked="${#lists.contains(user.roleSet, role)}"
+                           th:text="${role.name}">
                 </label>
             </p>
         </fieldset>
